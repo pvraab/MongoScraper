@@ -1,0 +1,28 @@
+<div class="container logo">
+  <img src="/assets/images/history.capitolbroadcasting.jpg" class="img-fluid img-rounded center"
+    alt="https://history.capitolbroadcasting.com/media-assets/ap-teletype-machine/" width=200 height=200>
+  <h1 class="text-center">Articles!</h1>
+
+<div id="wrapper">
+
+  <div class="container-fluid bg-3 text-center">
+    <div class="card-group">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Articles!</h5>
+
+          <ul class="card-text">
+            {{#each articles}}
+            {{!-- <li>{{title}}</li> --}}
+            {{> articles/article-block}}
+            {{/each}}
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

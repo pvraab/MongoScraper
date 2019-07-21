@@ -1,0 +1,46 @@
+#header {
+  font-family: 'Faster One', cursive;
+  font-family: 'Spectral SC', serif;
+  font-family: 'Ledger', serif;
+  font-family: 'Noto Sans HK', sans-serif;
+}
+
+#wrapper {
+  font-family: 'Noto Sans HK', sans-serif;
+  font-size: 16px;
+}
+
+.logo {
+  font-family: 'Faster One', cursive;
+  font-size: 24px;
+}
+
+#add-burger-text {
+  font-size: 18px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li {
+  padding: 5px;
+  margin: 5px;
+  background: #faebd7;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.create-update-form {
+  padding: 5px;
+  margin: 5px;
+  background: aqua;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
