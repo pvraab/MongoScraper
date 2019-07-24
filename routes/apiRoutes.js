@@ -3,13 +3,16 @@
 // It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
+var mongojs = require("mongojs");
 
 // Require all models
 var db = require("../models");
 
 module.exports = function(app) {
+  var articleArr = [];
+
   // A GET route for scraping the echoJS website
-  app.get("/scrape/echojs", function(req, res) {
+  app.get("/scrape", function(req, res) {
     // First, we grab the body of the html with axios
     axios.get("http://www.echojs.com/").then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -27,6 +30,9 @@ module.exports = function(app) {
         result.link = $(this)
           .children("a")
           .attr("href");
+        result.saved = false;
+
+        articleArr.push(result);
 
         // Create a new Article using the `result` object built from scraping
         db.Article.create(result)
@@ -43,47 +49,6 @@ module.exports = function(app) {
       // Send a message to the client
       res.send("Scrape Complete");
     });
-  });
-
-  // A GET route for scraping the Daily Mail website
-  app.get("/scrape/dailymail", function(req, res) {
-    // First, we grab the body of the html with axios
-    axios
-      .get("https://www.latimes.com/")
-      .then(function(response) {
-        // Then, we load that into cheerio and save it to $ for a shorthand selector
-        var $ = cheerio.load(response.data);
-
-        // Now, we grab every h2 within an article tag, and do the following:
-        $("a").each(function(i, element) {
-          console.log(element);
-
-          // Save an empty result object
-          var result = {};
-
-          // Add the text and href of every link, and save them as properties of the result object
-          result.title = $(this)
-            .children("a")
-            .text();
-          result.link = $(this)
-            .children("a")
-            .attr("href");
-
-          // Create a new Article using the `result` object built from scraping
-          db.Article.create(result)
-            .then(function(dbArticle) {
-              // View the added result in the console
-              console.log(dbArticle);
-            })
-            .catch(function(err) {
-              // If an error occurred, log it
-              console.log(err);
-            });
-        });
-
-        // Send a message to the client
-        res.send("Scrape Complete");
-      });
   });
 
   // Route for getting all Articles from the db
@@ -140,27 +105,46 @@ module.exports = function(app) {
       });
   });
 
-  // Delete One from the DB
-app.get("/delete/:id", function(req, res) {
-  // Remove a note using the objectID
-  db.Article.remove(
-    {
-      _id: mongojs.ObjectID(req.params.id)
-    },
-    function(error, removed) {
-      // Log any errors from mongojs
-      if (error) {
-        console.log(error);
-        res.send(error);
-      }
-      else {
-        // Otherwise, send the mongojs response to the browser
-        // This will fire off the success function of the ajax request
-        console.log(removed);
-        res.send(removed);
-      }
-    }
-  );
-});
+  // Route for updating a saved Article to the db
+  app.put("/articles/:id", function(req, res) {
+    // Create a new Article using the `result` object built from scraping
+    db.Article.updateOne(
+      { _id: mongojs.ObjectID(req.params.id) },
+      { $set: { saved: true } }
+    )
+      .then(function(dbArticle) {
+        // View the added result in the console
+        console.log(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurred, log it
+        console.log(err);
+      });
+  });
 
+  // Delete One from the DB
+  app.delete("/articles/:id", function(req, res) {
+    // Remove a note using the objectID
+    console.log("In delete API");
+    console.log(req.params.id);
+
+    // Remove a note using the objectID
+    db.Article.remove(
+      {
+        _id: mongojs.ObjectID(req.params.id)
+      },
+      function(error, removed) {
+        // Log any errors from mongojs
+        if (error) {
+          console.log(error);
+          res.send(error);
+        } else {
+          // Otherwise, send the mongojs response to the browser
+          // This will fire off the success function of the ajax request
+          console.log(removed);
+          res.send(removed);
+        }
+      }
+    );
+  });
 };
