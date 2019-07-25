@@ -1,0 +1,60 @@
+<li>
+	<p>{{title}}</p>
+
+	<button class="btn btn-sm btn-primary note-it" data-id="{{id}}">Note It!</button>
+	<button class="btn btn-sm btn-primary delete-saved-article" data-id="{{this.id}}">Delete!</button>
+
+</li>
+
+<!-- Modal dialog to add or update users -->
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+		<div class="modal-content" style="background-color: #ff794d;">
+			<div class="modal-header">
+				<label class="col-sm-3 col-form-label col-form-label-lg" style="color: black;" for="adding-user">Add
+					Users</label>
+				<button type="button" class="close" data-dismiss="modal" style="color: black;" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="modalText">
+
+				<!-- User Update -->
+				<form role="form">
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
+							for="user-first-name">First Name</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control form-control-sm" style="color: black;"
+								id="user-first-name">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
+							for="user-last-name">Last
+							Name</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control form-control-sm" style="color: black;"
+								id="user-last-name">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
+							for="user-email">Email</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control form-control-sm" style="color: black;"
+								id="user-email">
+						</div>
+					</div>
+					<button type="submit" class="btn btn-outline-dark" id="userBtn"
+						style="color: black;">Submit</button>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark" style="color: black;"
+					data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

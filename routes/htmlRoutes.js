@@ -27,7 +27,7 @@ module.exports = function(app) {
     db.Article.find({ saved: true })
       .populate("notes")
       .then(articles => {
-        res.render("index", { articles });
+        res.render("saved", { articles });
       })
       .catch(err => console.log(err));
   });
