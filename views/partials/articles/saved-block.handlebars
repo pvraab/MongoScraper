@@ -12,7 +12,7 @@
 		<div class="modal-content" style="background-color: #ff794d;">
 			<div class="modal-header">
 				<label class="col-sm-3 col-form-label col-form-label-lg" style="color: black;" for="adding-user">Add
-					Users</label>
+					Note</label>
 				<button type="button" class="close" data-dismiss="modal" style="color: black;" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -21,32 +21,24 @@
 
 				<!-- User Update -->
 				<form role="form">
+
 					<div class="form-group row">
 						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
-							for="user-first-name">First Name</label>
+							for="db-notes">Notes</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control form-control-sm" style="color: black;"
-								id="user-first-name">
+							<textarea rows="4" cols="50" name="db-notes"  class="form-control form-control-sm" style="color: black;"
+								id="db-notes"></textarea>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
-							for="user-last-name">Last
-							Name</label>
+							for="new-note">New Note</label>
 						<div class="col-sm-9">
 							<input type="text" class="form-control form-control-sm" style="color: black;"
-								id="user-last-name">
+								id="new-note">
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
-							for="user-email">Email</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control form-control-sm" style="color: black;"
-								id="user-email">
-						</div>
-					</div>
-					<button type="submit" class="btn btn-outline-dark" id="userBtn"
+					<button type="submit" class="btn btn-outline-dark" id="noteBtn"
 						style="color: black;">Submit</button>
 				</form>
 
