@@ -17,6 +17,7 @@ module.exports = function(app) {
     axios.get("http://www.echojs.com/").then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
+      console.log(response.data);
 
       // Now, we grab every h2 within an article tag, and do the following:
       $("article h2").each(function(i, element) {
@@ -27,6 +28,9 @@ module.exports = function(app) {
         result.title = $(this)
           .children("a")
           .text();
+        result.summary = $(this)
+          .children("a")
+          .text();
         result.link = $(this)
           .children("a")
           .attr("href");
@@ -34,20 +38,28 @@ module.exports = function(app) {
 
         articleArr.push(result);
 
-        // Create a new Article using the `result` object built from scraping
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            // View the added result in the console
-            console.log(dbArticle);
-          })
-          .catch(function(err) {
-            // If an error occurred, log it
-            console.log(err);
-          });
+        // Only add the article if it is not already there
+        // Use the count function on title to look for dups
+        db.Article.count({ title: result.title }, function(err, test) {
+          //if the test is 0, the entry is unique and good to save
+          if (test == 0) {
+            // Create a new Article using the `result` object built from scraping
+            db.Article.create(result)
+              .then(function(dbArticle) {})
+              .catch(function(err) {
+                // If an error occurred, log it
+                console.log(err);
+              });
+          }
+        });
       });
 
       // Send a message to the client
-      res.send("Scrape Complete");
+      // res.send("Scrape Complete");
+
+      // If we were able to successfully scrape and save an Article, redirect to index
+      res.redirect('/')
+
     });
   });
 
@@ -223,7 +235,8 @@ module.exports = function(app) {
         // Otherwise, send the mongojs response to the browser
         // This will fire off the success function of the ajax request
         console.log(removed);
-        res.send(removed);
+        // res.send(removed);
+        res.redirect('/')
       }
     });
   });

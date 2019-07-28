@@ -17,53 +17,15 @@ This is a web app that lets users view and leave comments on the latest news. Th
 - [Mongoose Documentation](http://mongoosejs.com/docs/api.html)
 - [Cheerio Documentation](https://github.com/cheeriojs/cheerio)
 
-### Reminder: Submission on BCS
-
-- Please submit both the deployed Heroku link to your homework AND the link to the Github Repository!
-
-------
-
-### Minimum Requirements
-
-- **This assignment must be deployed.** Attempt to complete homework assignment as described in instructions. If unable to complete certain portions, please pseudocode these portions to describe what remains to be completed. Hosting on Heroku and adding a README.md are required for this homework. In addition, add this homework to your portfolio, more information can be found below.
-
-------
-
-### Hosting on Heroku
-
-Now that we have a backend to our applications, we use Heroku for hosting. Please note that while **Heroku is free**, it will request credit card information if you have more than 5 applications at a time or are adding a database.
-
-Please see [Heroku’s Account Verification Information](https://devcenter.heroku.com/articles/account-verification) for more details.
-
-------
-
-### Create a README.md
-
-Add a `README.md` to your repository describing the project. Here are some resources for creating your `README.md`. Here are some resources to help you along the way:
-
-- [About READMEs](https://help.github.com/articles/about-readmes/)
-- [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
-
-------
-
-### Add To Your Portfolio
-
-After completing the homework please add the piece to your portfolio. Make sure to add a link to your updated portfolio in the comments section of your homework so the TAs can easily ensure you completed this step when they are grading the assignment. To receive an 'A' on any assignment, you must link to it from your portfolio.
-
-------
-
-### One Last Thing
-
-If you have any questions about this project or the material we have covered, please post them in the community channels in slack so that your fellow developers can help you! If you're still having trouble, you can come to office hours for assistance from your instructor and TAs.
-
-That goes threefold for this unit: MongoDB and Mongoose compose a challenging data management system. If there's anything you find confusing about these technologies, don't hesitate to speak with someone from the Boot Camp team.
-
-**Good Luck!**
-
 ### Detailed Functionality
 
 - MongoScraper is an app that lets users scrape articles from the www.echojs.com website.
 - The user can scrape new articles, mark articles to save, delete articles from the database, add notes to articles, and clear the database.
+- Each scraped article is saved to the application database. The app scrapes and displays the following information for each article:
+  - Headline - the title of the article
+  - Summary - a short summary of the article
+  - URL - the url to the original article
+- Users are able to leave comments on the articles displayed and revisit them later. The comments are saved to the database as well and associated with their articles. Users are able to delete comments left on articles. All stored comments should be visible to every user.
 - Each article has a `Save It!` button. When the user clicks it, the article will be flagged to save in the database.
 - There is also a `Delete!` button for deleting an article from the database and screen.
 - Connect the MongoDB database to mongoose, in the following way:
@@ -76,46 +38,21 @@ mongoose.connect(MONGODB_URI);
 ```
 
 - This code connects mongoose to your remote mLab MongoDB database when deployed on Heroku, but otherwise will connect to the local mongoHeadlines database on the local computer instance.
+- Whenever you scrape a site for stories, make sure an article isn't already represented in your database before saving it; Do not save any duplicate entries.
+- Don't just clear out your database and populate it with scraped articles whenever a user accesses your site.
+- If your app deletes stories every time someone visits, your users won't be able to see any comments except the ones that they post.
 
-- ## Instructions
-
-  - Create an app that accomplishes the following:
-    1. Whenever a user visits your site, the app should scrape stories from a news outlet of your choice and display them for the user. Each scraped article should be saved to your application database. At a minimum, the app should scrape and display the following information for each article:
-       - Headline - the title of the article
-       - Summary - a short summary of the article
-       - URL - the url to the original article
-       - Feel free to add more content to your database (photos, bylines, and so on).
-    2. Users should also be able to leave comments on the articles displayed and revisit them later. The comments should be saved to the database as well and associated with their articles. Users should also be able to delete comments left on articles. All stored comments should be visible to every user.
-  - Beyond these requirements, be creative and have fun with this!
-
-  ### Tips
-
-  - Go back to Saturday's activities if you need a refresher on how to partner one model with another.
-  - Whenever you scrape a site for stories, make sure an article isn't already represented in your database before saving it; Do not save any duplicate entries.
-  - Don't just clear out your database and populate it with scraped articles whenever a user accesses your site.
-    - If your app deletes stories every time someone visits, your users won't be able to see any comments except the ones that they post.
 
 #### MongoDB Database Setup
 
 - Database called `mongoHeadlines`.
 - Use a Articles collection with documents with these fields:
   - **_id**: an auto created field serves as the primary key.
-  - **burgerName**: a string.
-  - **isDevoured**: a boolean.
+  - **title**: a string.
+  - **link**: a string.
 - Use a Notes collection with documents with these fields:
   - **_id**: an auto created field serves as the primary key.
-  - **burgerName**: a string.
-  - **isDevoured**: a boolean.
-
-#### Application Design
-
-- A `config.json` file inside `config` directory specifies the database connection parameters.
-- The db directory contains a schema.sql to create the database and a seeds.sql file to put data in the tables. 
-- The models directory contains the JS files to define the database tables using sequelize.
-- The public directory is the static directory to define the CSS and JS for use by the Handlebars views and layouts.
-- The routes directories contain the JS files defining the API and HTML routes for the app.
-- The views directory contains the Handlebars views and layouts for the app.
-- server.js is the main node.js code for the app. Uses Express to define the server.
+  - **body**: a string.
 
 ------
 
