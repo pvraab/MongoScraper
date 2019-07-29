@@ -58,8 +58,7 @@ module.exports = function(app) {
       // res.send("Scrape Complete");
 
       // If we were able to successfully scrape and save an Article, redirect to index
-      res.redirect('/')
-
+      res.redirect("/");
     });
   });
 
@@ -82,7 +81,7 @@ module.exports = function(app) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article.findOne({ _id: req.params.id })
       // ..and populate all of the notes associated with it
-      .populate("note")
+      .populate("notes")
       .then(function(dbArticle) {
         // If we were able to successfully find an Article with the given id, send it back to the client
         res.json(dbArticle);
@@ -135,7 +134,7 @@ module.exports = function(app) {
         // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
         return db.Article.findOneAndUpdate(
           { _id: req.params.id },
-          { note: dbNote._id },
+          { notes: dbNote._id },
           { new: true }
         );
       })
@@ -222,6 +221,54 @@ module.exports = function(app) {
       });
   });
 
+  // Delete One from the DB
+  // app.get("/delete/:id", function(req, res) {
+  // Remove a note using the objectID
+  //   db.notes.remove(
+  //     {
+  //       _id: mongojs.ObjectID(req.params.id)
+  //     },
+  //     function(error, removed) {
+  //       // Log any errors from mongojs
+  //       if (error) {
+  //         console.log(error);
+  //         res.send(error);
+  //       }
+  //       else {
+  //         // Otherwise, send the mongojs response to the browser
+  //         // This will fire off the success function of the ajax request
+  //         console.log(removed);
+  //         res.send(removed);
+  //       }
+  //     }
+  //   );
+  // });
+
+  // Delete a note
+  app.delete("/note/:id", function(req, res) {
+    db.Note.findByIdAndRemove({ _id: req.params.id })
+      .then(function(dbNote) {
+        console.log("deleted");
+
+        // Clean up article removing note
+        return db.Article.findOneAndUpdate(
+          { notes: req.params.id },
+          { $pull: { notes: req.params.id } }
+        );
+      })
+      .then(function(dbArticle) {
+        // If we were able to successfully update an Article, send it back to the client
+        console.log("deleted in article");
+        console.log(dbArticle);
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        console.log("error");
+        res.json(err);
+      });
+  });
+
   // Clear DB
   app.get("/clear", function(req, res) {
     console.log("In clear API");
@@ -236,7 +283,7 @@ module.exports = function(app) {
         // This will fire off the success function of the ajax request
         console.log(removed);
         // res.send(removed);
-        res.redirect('/')
+        res.redirect("/");
       }
     });
   });

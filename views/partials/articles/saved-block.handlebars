@@ -1,5 +1,7 @@
 <li>
-    <a href={{link}} target="_blank"><h2>{{title}}</h2></a>
+	<a href={{link}} target="_blank">
+		<h2>{{title}}</h2>
+	</a>
 	<p>{{summary}}</p>
 	<button class="btn btn-sm btn-primary note-it" data-id="{{id}}">Note It!</button>
 	<button class="btn btn-sm btn-primary delete-saved-article" data-id="{{this.id}}">Delete!</button>
@@ -24,22 +26,24 @@
 
 					<div class="form-group row">
 						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
-							for="db-notes">Notes</label>
-						<div class="col-sm-9">
-							<textarea rows="4" cols="50" name="db-notes"  class="form-control form-control-sm" style="color: black;"
-								id="db-notes"></textarea>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
 							for="new-note">New Note</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control form-control-sm" style="color: black;"
-								id="new-note">
+							<input type="text" class="form-control form-control-sm" style="color: black;" id="new-note">
 						</div>
 					</div>
 					<button type="submit" class="btn btn-outline-dark" id="noteBtn"
 						style="color: black;">Submit</button>
+
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;"
+							for="db-notes">Notes</label>
+						<div class="col-sm-9">
+							<ul class="list-group list-group-flush db-notes">
+							</ul>
+							{{!-- <textarea rows="4" cols="50" name="db-notes"  class="form-control form-control-sm" style="color: black;"
+								id="db-notes"></textarea> --}}
+						</div>
+					</div>
 				</form>
 
 			</div>

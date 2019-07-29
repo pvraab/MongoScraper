@@ -50,7 +50,7 @@ $(function() {
     console.log(id);
     currentId = id;
     // Clear the form to start
-    $("#db-notes").val("");
+    $(".db-notes").empty();
     $("#new-note").val("");
 
     // Run a POST request to change the note, using what's entered in the inputs
@@ -66,11 +66,21 @@ $(function() {
         console.log(data[0].notes[0].body);
         // Clear the form after submitting
         var outStr = "";
+        $(".db-notes").empty();
         data[0].notes.forEach(element => {
           console.log(element);
-          outStr = outStr + element.body + "\n";
+          $(".db-notes").append(
+            $(
+              "<li class='list-group-item'>" +
+                element.body +
+                "<button type='button' class='btn btn-danger btn-sm float-right btn-deletenote' data='" +
+                element._id +
+                "'>X</button></li>"
+            )
+          );
+          // outStr = outStr + element.body + "\n";
         });
-        $("#db-notes").val(outStr);
+        // $(".db-notes").val(outStr);
       });
 
     $("#noteModal").modal("show");
@@ -97,11 +107,24 @@ $(function() {
         console.log("Added a new note");
         console.log(data);
         // Clear the form after submitting
-        $("#db-notes").val("");
+        $(".db-notes").empty();
         $("#new-note").val("");
 
         $("#noteModal").modal("hide");
         location.reload();
       });
+  });
+
+  // $('.btn-deletenote').click(function (event) {})
+  $(document).on("click", ".btn-deletenote", function() {
+    event.preventDefault();
+    console.log($(this).attr("data"));
+    const id = $(this).attr("data");
+    console.log(id);
+    $.ajax(`/note/${id}`, {
+      type: "DELETE"
+    }).then(function() {
+      $("#noteModal").modal("toggle");
+    });
   });
 });
